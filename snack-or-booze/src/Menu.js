@@ -13,7 +13,6 @@ import {
 function Menu({ items, cantFind }) {
 
   let { type } = useParams();
-  console.log('type in menu', type)
   if (type !== 'snacks' && type !== 'booze') return <Redirect to={cantFind} />;
 
   let title = type.charAt(0).toUpperCase() + type.slice(1) + ' Menu'

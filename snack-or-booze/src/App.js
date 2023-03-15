@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
+
 import "./App.css";
 import Home from "./Home";
 import SnackOrBoozeApi from "./Api";
@@ -16,22 +16,37 @@ function App() {
 
   useEffect(() => {
     async function getItems() {
-      let snacks = await SnackOrBoozeApi.getSnackorBooze('snacks');
-      setSnacks(snacks)
-      let booze = await SnackOrBoozeApi.getSnackorBooze('drinks');
-      setBooze(booze);
-      setIsLoading(false);
+      try {
+        let snacks = await SnackOrBoozeApi.getSnackorBooze('snacks');
+        setSnacks(snacks)
+        let booze = await SnackOrBoozeApi.getSnackorBooze('drinks');
+        setBooze(booze);
+        setIsLoading(false);
+      } catch (e) {
+        if (e.response) console.log(e)
+      }
     }
     getItems();
   }, []);
 
-  if (isLoading) {
-    return <p>Loading &hellip;</p>;
+  const addItem = async (type, data) => {
+    await SnackOrBoozeApi.addSnackorBooze(type, data);
+    if (type === 'snacks') {
+      let snacks = await SnackOrBoozeApi.getSnackorBooze('snacks');
+      setSnacks(snacks)
+    }
+    if (type === 'drinks') {
+      let booze = await SnackOrBoozeApi.getSnackorBooze('drinks');
+      setBooze(booze);
+    }
   }
+
+  // if (isLoading) {
+  //   return <p>Loading &hellip;</p>;
+  // }
 
   return (
     <div className="App">
-      <BrowserRouter>
         <NavBar snacks={snacks} booze={booze}/>
         <main>
           <Switch>
@@ -39,7 +54,7 @@ function App() {
               <Home snacks={snacks} />
             </Route>
             <Route exact path="/addItem">
-              <AddForm />
+              <AddForm addItem={addItem} cantFind='/' />
             </Route>
             <Route exact path="/:type">
               <Menu items={{snacks, booze}} title="Menu" cantFind="/"/>
@@ -52,7 +67,6 @@ function App() {
             </Route>
           </Switch>
         </main>
-      </BrowserRouter>
     </div>
   );
 }

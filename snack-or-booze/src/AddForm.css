@@ -1,0 +1,17 @@
+button {
+    margin-top: 30px;
+    background-color: lightgray;
+}
+
+.AddForm-radio {
+    text-align: center;
+}
+
+.AddForm-radio label {
+    margin-right: 5px;
+    margin-left: 15px;
+}
+
+label {
+    margin-top: 10px ;
+}

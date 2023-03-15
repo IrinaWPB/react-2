@@ -12,7 +12,6 @@ function Item({ items, cantFind }) {
 
   //Check if id is valid for the type
   let item = items[type].find(i => i.id === id);
-  console.log(item)
   if (!item) return <Redirect to={cantFind} />;
 
   return (
