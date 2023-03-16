@@ -18,9 +18,9 @@ const booze = [{id: 'coke',
 test('showing navbar', () => {
     const {getByText} = render(
         <MemoryRouter>
-            <NavBar snacks={snacks} booze={booze} />
+           <NavBar snacks={snacks} booze={booze} /> 
         </MemoryRouter>
     )
-    expect(getByText("Snack or Boozea")).toBeInTheDocument()
+    expect(getByText("Snack or Booze")).toBeInTheDocument()
     expect(getByText("Add Item")).toBeInTheDocument()
 })

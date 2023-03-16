@@ -1,18 +1,27 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import App from './App'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, Switch, Route, useParams } from 'react-router-dom'
+import Menu from './Menu'
 
-it ("renders without crashing", () => {
+const snacks = [{id: 'chips',
+            name: 'chips',
+            description: 'blabla',
+            recipe: 'recipe',
+            serve: 'serve'}]
+
+const booze = [{id: 'coke',
+            name: 'coke',
+            description: 'blabla',
+            recipe: 'recipe',
+            serve: 'serve'}]
+
+it ("renders without crashing", async () => {
     render(<MemoryRouter><App /></MemoryRouter>)
 })
 
-it ("shows home page snack and booze buttons at loading", () => {
-    const { getByText } = render(
-        <MemoryRouter>
-            <App />
-        </MemoryRouter>
-    )
+it ("shows home page with link at loading", async () => {
+    const { getByText } = render(<MemoryRouter><App /></MemoryRouter>)
     const snackBtn = getByText("Snacks")
     const boozeBtn = getByText("Drinks")
     const formBtn = getByText("Add Item")
@@ -32,7 +41,16 @@ it ("shows home page snack and booze buttons at loading", () => {
     expect(getByText("Add item to the menu:")).toBeInTheDocument()
 })
 
-it ("shows snacks menu", () => {
+test("renders form", () => {
+    const { getByText } = render((
+        <MemoryRouter initialEntries={['/addItem']}>
+            <App />
+        </MemoryRouter>
+    ))
+    expect(getByText("Add item to the menu:")).toBeInTheDocument()
+})
+
+it ("shows snacks menu", async () => {
     const { getByText } = render(
         <MemoryRouter initialEntries={['/snacks']}>
             <App />
@@ -41,9 +59,12 @@ it ("shows snacks menu", () => {
     expect(getByText("Snacks Menu")).toBeInTheDocument()
 })
 
+
+
 it ("shows booze menu", () => {
+    let type = 'booze'
     const { getByText } = render(
-        <MemoryRouter initialEntries={['/booze']}>
+        <MemoryRouter initialEntries={[`/${type}`]}>
             <App />
         </MemoryRouter>
     )
@@ -51,13 +72,23 @@ it ("shows booze menu", () => {
 })
 
 it("redirects to home from nonexisting route", () => {
-    const { getByText } = render(
+    const { getByText } = render((
         <MemoryRouter initialEntries={['/invalid-route']}>
             <App />
         </MemoryRouter>
-    )
+    ))
     expect(getByText("Welcome to Silicon Valley's premier dive cafe!")).toBeInTheDocument()
 })
+
+test("renders form", () => {
+    const { getByText } = render((
+        <MemoryRouter initialEntries={['/addItem']}>
+            <App />
+        </MemoryRouter>
+    ))
+    expect(getByText("Add item to the menu:")).toBeInTheDocument()
+})
+
 
 
 

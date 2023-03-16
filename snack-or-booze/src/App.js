@@ -4,7 +4,7 @@ import "./App.css";
 import Home from "./Home";
 import SnackOrBoozeApi from "./Api";
 import NavBar from "./NavBar";
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter, MemoryRouter, Route, Switch } from "react-router-dom";
 import Menu from "./Menu";
 import Item from "./Item";
 import AddForm from "./AddForm";
@@ -47,26 +47,26 @@ function App() {
 
   return (
     <div className="App">
-        <NavBar snacks={snacks} booze={booze}/>
-        <main>
-          <Switch>
-            <Route exact path="/">
-              <Home snacks={snacks} />
-            </Route>
-            <Route exact path="/addItem">
-              <AddForm addItem={addItem} cantFind='/' />
-            </Route>
-            <Route exact path="/:type">
-              <Menu items={{snacks, booze}} title="Menu" cantFind="/"/>
-            </Route>
-            <Route path="/:type/:id">
-              <Item items={{snacks, booze}} cantFind='/' />
-            </Route>
-            <Route>
-              <p>Hmmm. I can't seem to find what you want.</p>
-            </Route>
-          </Switch>
-        </main>
+          <NavBar snacks={snacks} booze={booze}/>
+          <main>
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route exact path="/addItem">
+                <AddForm addItem={addItem} cantFind='/' />
+              </Route>
+              <Route exact path="/:type">
+                <Menu items={{snacks, booze}} title="Menu" cantFind="/"/>
+              </Route>
+              <Route exact path="/:type/:id">
+                <Item items={{snacks, booze}} cantFind='/' />
+              </Route>
+              <Route>
+                <p>Hmmm. I can't seem to find what you want.</p>
+              </Route>
+            </Switch>
+          </main>
     </div>
   );
 }
